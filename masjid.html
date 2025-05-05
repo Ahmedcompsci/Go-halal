@@ -1,14 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Halal Go</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Halal Go</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    body {
+      background-color: #181818;
+      color: #f1f1f1;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
 
+    header {
+      background: rgba(24, 24, 24, 0.95);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      padding: 1rem 2rem;
+    }
+
+    nav h1 {
+      color: #2a9d8f;
+      display: inline;
+    }
+
+    .nav-links {
+      float: right;
+    }
+
+    .nav-links a {
+      color: #e0e0e0;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      background-color: rgba(42, 157, 143, 0.15);
+      color: #2a9d8f;
+      border-radius: 5px;
+      padding: 0.25rem 0.5rem;
+    }
+
+    .container {
+      padding: 2rem;
+    }
+
+    .prayer-times {
+      background-color: #202020;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.4);
+      margin-bottom: 2rem;
+    }
+
+    .prayer-times h3 {
+      color: #ffffff;
+      margin-bottom: 1rem;
+    }
+
+    .prayer-times p {
+      background-color: #2b2b2b;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      margin: 0.5rem 0;
+      color: #f1f1f1;
+    }
+
+    #map {
+      height: 500px;
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      box-shadow: 0 0 12px rgba(0,0,0,0.5);
+    }
+
+    .review-section {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .review-panel, .reviews-list {
+      background-color: #202020;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.4);
+    }
+
+    .review-panel h2, .reviews-list h3 {
+      color: #ffffff;
+      margin-bottom: 1rem;
+    }
+
+    .star-rating .star {
+      font-size: 1.5rem;
+      color: #555;
+      cursor: pointer;
+    }
+
+    .star-rating .star.active {
+      color: gold;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      background-color: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 8px;
+      color: #fff;
+    }
+
+    button {
+      background-color: #2a9d8f;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #21867a;
+    }
+
+    .review-card {
+      background-color: #1f1f1f;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #aaa;
+      background: #1a1a1a;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -20,10 +162,10 @@
         <a href="masjid.html">Mosques</a>
         <a href="login.html">Login</a>
         <a href="signup.html">Sign Up</a>
-      
-    </div>
+      </div>
     </nav>
   </header>
+
   <div class="container">
     <div class="prayer-times">
       <h3>Prayer Times</h3>
@@ -33,7 +175,9 @@
       <p><strong>Maghrib:</strong> 8:25 PM</p>
       <p><strong>Isha:</strong> 9:45 PM</p>
     </div>
+
     <div id="map"></div>
+
     <div class="review-section">
       <div class="review-panel">
         <h2>Leave a Review</h2>
@@ -48,11 +192,13 @@
         <textarea id="reviewText" placeholder="Your review..." required></textarea>
         <button onclick="submitReview()">Submit Review</button>
       </div>
+
       <div class="reviews-list" id="reviewsList">
         <h3>Recent Reviews</h3>
       </div>
     </div>
   </div>
+
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
     const masjids = [

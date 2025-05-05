@@ -6,27 +6,142 @@
   <title>Halal Restaurant Finder</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="styles.css" />
-  
+  <style>
+    body {
+      background-color: #181818;
+      color: #f1f1f1;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: rgba(24, 24, 24, 0.95);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      padding: 1rem 2rem;
+    }
+
+    nav h1 {
+      color: #2a9d8f;
+      display: inline;
+    }
+
+    .nav-links {
+      float: right;
+    }
+
+    .nav-links a {
+      color: #e0e0e0;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      background-color: rgba(42, 157, 143, 0.15);
+      color: #2a9d8f;
+      border-radius: 5px;
+      padding: 0.25rem 0.5rem;
+    }
+
+    .container {
+      padding: 2rem;
+    }
+
+    #map {
+      height: 500px;
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+
+    .review-section {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .review-panel, .reviews-list {
+      background-color: #202020;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.4);
+    }
+
+    .review-panel h2, .reviews-list h3 {
+      color: #ffffff;
+      margin-bottom: 1rem;
+    }
+
+    .star-rating .star {
+      font-size: 1.5rem;
+      color: #666;
+      cursor: pointer;
+    }
+
+    .star-rating .star.active {
+      color: gold;
+    }
+
+    input[type="text"], textarea, select {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      margin-bottom: 1rem;
+      background-color: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 8px;
+      color: #fff;
+    }
+
+    button {
+      background-color: #2a9d8f;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #21867a;
+    }
+
+    .review-card {
+      background-color: #1f1f1f;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .halal-badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      color: white;
+      font-size: 0.75rem;
+      margin: 0.5rem 0;
+    }
+  </style>
 </head>
 <body>
-
-  <!-- 🔥 Reusable Site Header -->
   <header>
     <nav>
       <h1>Halal Go</h1>
-  
-        <div class="nav-links">
-          <a href="index.html">Home</a>
-          <a href="restaurant.html">Halal Restaurants</a>
-          <a href="masjid.html">Mosques</a>
-          <a href="login.html">Login</a>
-          <a href="signup.html">Sign Up</a>
-        
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="restaurant.html">Halal Restaurants</a>
+        <a href="masjid.html">Mosques</a>
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
       </div>
     </nav>
   </header>
 
-  <!-- Main Section -->
   <div class="container">
     <div id="map"></div>
 
