@@ -1,240 +1,191 @@
 <!DOCTYPE html>
+<!-- This line tells the browser that is an HTML5 document -->
 <html lang="en">
+<!-- Start of the HTML document -->
 <head>
+  <!-- Document head contains metadata and resources -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Ensures proper scaling on mobile devices with this line below -->
   <title>Halal Go - Home</title>
+  <!-- Title shown in the browser tab -->
   <link rel="stylesheet" href="styles.css" />
+  <!-- Links to the external stylesheet for base styles -->
   <style>
+    /* Start of the internal CSS f */
     body {
-      background-color: #121212;
-      color: #f1f1f1;
-      font-family: 'Poppins', sans-serif;
+      background-color: #121212;  /* Dark background for modern look */
+      color: #f1f1f1;             /* Light text for good look */
+      font-family: 'Poppins', sans-serif; /* Clean and friendly font */
     }
 
     header {
-      background: #1e1e1e;
-      box-shadow: var(--shadow-sm);
+      background: #1e1e1e; /*  background shade*/
+      box-shadow: var(--shadow-sm); 
     }
 
     nav h1 {
-      color: var(--primary);
+      color: var(--primary); /*  The Primary color for brand name */
     }
 
     .nav-links a {
-      color: #ddd;
+      color: #ddd; /* Light grey for navigation links */
     }
 
     .nav-links a:hover {
-      background-color: rgba(42, 157, 143, 0.15);
-      color: var(--primary);
+      background-color: rgba(42, 157, 143, 0.15); /* Highlights  on hovering over it */
+      color: var(--primary); /* Change text to primary color when hovered over */
     }
 
     .hero {
-      background-color: #2c2c2c;
-      border-radius: 20px;
-      margin: 2rem auto;
-      max-width: 1000px;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-      padding: 3rem 2rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+      background-color: #2c2c2c; 
+      border-radius: 20px;       /* Rounded corners  */
+      margin: 2rem auto;         /* Centered with vertical spacing */
+      max-width: 1000px;         /* Limit width for better overall readability */
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Deep shadow effect */
+      padding: 3rem 2rem;        /* Padding inside the hero section */
+      text-align: center;        /* Center text content */
+      position: relative;        /* Positioning for overlay image */
+      overflow: hidden;          /* Hide overflow of overlay image */
     }
 
     .hero img.bg-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.5;
-  z-index: 0;
-}
-
+      position: absolute;     /* Absolute positioning behind text */
+      top: 0;         /* Aligns the  top of section */
+      left: 0;           /* Aligns the left of section */
+      width: 100%;          /* Full width of  the hero section */
+      height: 100%;     /* Full height of the hero section */
+      object-fit: cover;      /* Covers the  entire area */
+      opacity: 0.5;         /* Somewhat transparent overlay */
+      z-index: 0;                /* Behind text elements */
+    }
 
     .hero h2,
     .hero p,
     .hero-buttons {
-      position: relative;
-      z-index: 1;
+      position: relative;   /* Ensures the above overlay image */
+      z-index: 1;           /* Above overlay */
     }
 
     .hero h2 {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      font-weight: 700;
+      font-size: 3rem;   /* Large heading size */
+      margin-bottom: 1rem;   /* Space below heading */
+      font-weight: 700;       /* Bold text */
     }
 
     .hero p {
-      font-size: 1.2rem;
-      max-width: 700px;
-      margin: 0 auto 2rem;
-      line-height: 1.8;
-      color: #ccc;
+      font-size: 1.2rem;        
+      max-width: 700px;     
+      margin: 0 auto 2rem;  /* Centers and add bottom margin */
+      line-height: 1.8;   /*line height */
+      color: #ccc;     /* Slightly dimmer text */
     }
 
     .hero-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      flex-wrap: wrap;
+      display: flex;     /* Flexible button layout */
+      justify-content: center; /* Centers the  buttons horizontally */
+      gap: 1.5rem;      /* Spaces between the  buttons */
+      flex-wrap: wrap;   /* Wraps on smaller screens */
     }
 
     .hero-buttons a {
-      background: var(--primary);
-      padding: 1rem 2rem;
-      border-radius: 50px;
-      font-size: 1rem;
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      transition: background 0.3s ease, transform 0.2s ease;
-      box-shadow: var(--shadow-md);
+      background: var(--primary); /* MAIN color for buttons */
+      padding: 1rem 2rem;   /* Button padding */
+      border-radius: 50px;  /* circle-shaped buttons */
+      font-size: 1rem;     /* Standard text size */
+      color: white;    /* White text on the colored button */
+      text-decoration: none;  /* Removes  underline */
+      font-weight: 600;         
+      transition: background 0.3s ease, transform 0.2s ease; /* Smooths the hover effects */
+      box-shadow: var(--shadow-md); /* Medium shadow for depth */
     }
 
     .hero-buttons a:hover {
-      background: var(--accent);
-      transform: scale(1.05);
+      background: var(--accent); /* Accents the color on hover */
+      transform: scale(1.05);   /*  grow button */
     }
 
     footer {
-      text-align: center;
-      margin-top: 4rem;
-      padding: 2rem;
-      font-size: 0.9rem;
-      color: #888;
-      background: #1a1a1a;
+      text-align: center;  /* Center footer text */
+      margin-top: 4rem;   /* Space above the footer */
+      padding: 2rem;       /* Footers padding */
+      font-size: 0.9rem;  /* smaller text */
+      color: #888;    /* Dims the text color */
+      background: #1a1a1a;  /* Darkens the  background to match header */
     }
   </style>
 </head>
 <body>
+  <!-- Page header with navigation -->
   <header>
     <nav>
-      <h1>Halal Go</h1>
+      <h1>Halal Go</h1> <!-- Site logo/name -->
       <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="restaurant.html">Halal Restaurants</a>
-        <a href="masjid.html">Mosques</a>
-        <a href="login.html">Login</a>
-        <a href="signup.html">Sign Up</a>
+        <a href="index.html">Home</a> <!-- Links to home page -->
+        <a href="restaurant.html">Halal Restaurants</a> <!-- Link sto restaurant listing -->
+        <a href="masjid.html">Mosques</a> <!-- Links to mosque listing -->
+        <a href="login.html">Login</a> <!-- Links to login page -->
+        <a href="signup.html">Sign Up</a> <!-- Links to signup page -->
       </div>
     </nav>
   </header>
 
   <main>
+    <!-- Hero section welcomes users -->
     <section class="hero">
       <img src="images/index-hero.png" alt="Islamic background" class="bg-overlay" />
-      <h2>Welcome to Halal Go</h2>
-      <p>Your all-in-one platform to find halal restaurants and local mosques near you. Review spots, check halal status, and stay updated on prayer times.</p>
+      <h2>Welcome to Halal Go</h2> 
+      <p>Your all-in-one platform to find halal restaurants and local mosques near you. Review spots, check halal status, and stay updated on prayer times.</p> <!-- Hero description -->
       <div class="hero-buttons">
-        <a href="restaurant.html">Find Halal Restaurants</a>
-        <a href="masjid.html">Find Mosques</a>
+        <a href="restaurant.html">Find Halal Restaurants</a> <!-- Primary action -->
+        <a href="masjid.html">Find Mosques</a> <!-- Secondary action -->
       </div>
     </section>
   </main>
 
   <footer>
-    &copy; 2025 Halal Go. All rights reserved.
+    &copy; 2025 Halal Go. All rights reserved. <!-- Footers copyright -->
   </footer>
-  <!-- (Keep your existing HTML head & body as-is, just add the following right before </body>) -->
 
-<!-- Chatbot HTML -->
-<div id="chat-container" style="position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999; font-family: sans-serif;">
-  <button id="chat-toggle" style="background: #3b82f6; color: white; border: none; width: 3.5rem; height: 3.5rem; border-radius: 50%; font-size: 1.5rem; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">💬</button>
-  <div id="chat-window" style="display: none; flex-direction: column; width: 16rem; max-height: 22rem; background: white; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); overflow: hidden; margin-top: 0.5rem;">
-    <header style="background: #3b82f6; color: white; padding: 0.5rem; font-weight: bold;">HalalGo Chat</header>
-    <div id="chat-messages" style="flex: 1; padding: 0.5rem; overflow-y: auto; font-size: 0.85rem;"></div>
-    <div id="chat-input-row" style="display: flex; border-top: 1px solid #ddd;">
-      <input id="chat-input" placeholder="Ask 'food places' or 'isha'..." style="flex: 1; border: none; padding: 0.5rem; font-size: 0.85rem; outline: none;" />
-      <button id="chat-send" style="background: #3b82f6; border: none; color: white; padding: 0 1rem; cursor: pointer;">Send</button>
+  <!-- Chatbot HTML -->
+  <div id="chat-container" style="position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999; font-family: sans-serif;">
+    <!--  chat button container -->
+    <button id="chat-toggle" style="background: #3b82f6; color: white; border: none; width: 3.5rem; height: 3.5rem; border-radius: 50%; font-size: 1.5rem; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">💬</button> 
+    <div id="chat-window" style="display: none; flex-direction: column; width: 16rem; max-height: 22rem; background: white; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); overflow: hidden; margin-top: 0.5rem;">
+      <!-- Hidden chat window, shown when toggled only -->
+      <header style="background: #3b82f6; color: white; padding: 0.5rem; font-weight: bold;">HalalGo Chat</header> <!-- Chat window header -->
+      <div id="chat-messages" style="flex: 1; padding: 0.5rem; overflow-y: auto; font-size: 0.85rem;"></div> <!-- Container for chat messages -->
+      <div id="chat-input-row" style="display: flex; border-top: 1px solid #ddd;">
+        <!-- Input row for user messages -->
+        <input id="chat-input" placeholder="Ask 'food places' or 'isha'..." style="flex: 1; border: none; padding: 0.5rem; font-size: 0.85rem; outline: none;" /> <!-- User input for chatbot-->
+        <button id="chat-send" style="background: #3b82f6; border: none; color: white; padding: 0 1rem; cursor: pointer;">Send</button> <!-- Send message button for chatbot-->
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Chatbot Script -->
-<script>
-(function(){
-  const prayerSchedule = {
-    fajr: '5:30 AM',
-    dhuhr: '12:45 PM',
-    asr: '4:15 PM',
-    maghrib: '8:00 PM',
-    isha: '9:15 PM'
-  };
+  <!-- Chatbot Script it follows -->
+  <script>
+    (function(){
+      // Stores the  prayer times keyed by prayer name
+      const prayerSchedule = {
+        fajr: '5:30 AM',    // Morning prayer time
+        dhuhr: '12:45 PM',  // Midday prayer time
+        asr: '4:15 PM',     // Afternoon prayer time
+        maghrib: '8:00 PM', // Sunset prayer time
+        isha: '9:15 PM'     // Night prayer time
+      };
 
-  const dummyLocations = [
-    { type: 'restaurant', name: 'Halal Bites - Rochester', address: '255 1st Ave SW', menu: ['Mezze Platter','Lamb Kebabs'] },
-    { type: 'restaurant', name: 'Rose Turkish Kitchen', address: '789 Broadway Ave SE', menu: ['Doner Kebab','Baklava'] },
-    { type: 'mosque', name: 'Masjid AbuBakr', address: '321 3rd St NW' },
-    { type: 'mosque', name: 'Islamic Center', address: '123 Elton Hills Dr NW' }
-  ];
+      //  locations data for testing responses
+      const dummyLocations = [
+        { type: 'restaurant', name: 'Halal Bites - Rochester', address: '255 1st Ave SW', menu: ['Mezze Platter','Lamb Kebabs'] },
+        { type: 'restaurant', name: 'Rose Turkish Kitchen', address: '789 Broadway Ave SE', menu: ['Doner Kebab','Baklava'] },
+        { type: 'mosque', name: 'Masjid AbuBakr', address: '321 3rd St NW' },
+        { type: 'mosque', name: 'Islamic Center', address: '123 Elton Hills Dr NW' }
+      ];
 
-  const ctr    = document.getElementById('chat-container');
-  const win    = document.getElementById('chat-window');
-  const msgs   = document.getElementById('chat-messages');
-  const inp    = document.getElementById('chat-input');
-  const send   = document.getElementById('chat-send');
-  const toggle = document.getElementById('chat-toggle');
-
-  function append(text, who) {
-    const d = document.createElement('div');
-    d.className = 'chat-msg ' + who;
-    const s = document.createElement('span');
-    s.textContent = text;
-    s.style.display = 'inline-block';
-    s.style.padding = '0.25rem 0.5rem';
-    s.style.borderRadius = '4px';
-    s.style.background = who === 'user' ? '#eff6ff' : '#f3f4f6';
-    s.style.color = who === 'user' ? '#1e3a8a' : '#374151';
-    d.style.marginBottom = '0.5rem';
-    d.style.textAlign = who === 'user' ? 'right' : 'left';
-    d.appendChild(s);
-    msgs.appendChild(d);
-    msgs.scrollTop = msgs.scrollHeight;
-  }
-
-  toggle.addEventListener('click', ()=> {
-    win.style.display = win.style.display==='flex' ? 'none' : 'flex';
-  });
-
-  function handle() {
-    const text = inp.value.trim();
-    if (!text) return;
-    append(text, 'user');
-    inp.value = '';
-    let reply = "Sorry, I don't know that yet.";
-    const lower = text.toLowerCase();
-
-    for (const [p, t] of Object.entries(prayerSchedule)) {
-      if (lower.includes(p)) {
-        reply = `${p.charAt(0).toUpperCase()+p.slice(1)} prayer is at ${t}.`;
-        break;
-      }
-    }
-
-    if (lower.includes('mosque')) {
-      reply = dummyLocations.filter(l => l.type === 'mosque')
-        .map(l => `${l.name} (${l.address})`)
-        .join("\n");
-    }
-
-    if (lower.includes('food') || lower.includes('restaurant')) {
-      reply = dummyLocations.filter(l => l.type === 'restaurant')
-        .map(r => `${r.name} (${r.address}) – Menu: ${r.menu.join(', ')}`)
-        .join("\n");
-    }
-
-    setTimeout(() => append(reply, 'bot'), 300);
-  }
-
-  send.addEventListener('click', handle);
-  inp.addEventListener('keydown', e => { if (e.key === 'Enter') handle(); });
-
-  append('Hi! Ask about "prayer times", "restaurants", or "mosques".', 'bot');
-})();
-</script>
-
-</body>
-</html>
+      // Grab references to chat elements by their IDs
+      const ctr    = document.getElementById('chat-container');
+      const win    = document.getElementById('chat-window');
+      const msgs   = document.getElementById('chat-messages');
+      const inp    = document.getElementById('chat-input');
+      const send   = document.getElementById('chat-send');
