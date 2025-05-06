@@ -1,13 +1,19 @@
+<!-- AH- Declaring the document type and setting up the HTML structure -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- AH- Setting character encoding and responsive viewport -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- AH- Defining the page title -->
   <title>Halal Go</title>
+  <!-- AH- Linking external CSS and font stylesheets -->
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- AH- Defining internal CSS styles -->
   <style>
+    /* AH- Setting global styles for body */
     body {
       background-color: #181818;
       color: #f1f1f1;
@@ -16,21 +22,25 @@
       padding: 0;
     }
 
+    /* AH- Styling the header section */
     header {
       background: rgba(24, 24, 24, 0.95);
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
       padding: 1rem 2rem;
     }
 
+    /* AH- Styling the navigation title */
     nav h1 {
       color: #2a9d8f;
       display: inline;
     }
 
+    /* AH- Styling navigation links container */
     .nav-links {
       float: right;
     }
 
+    /* AH- Styling individual navigation links */
     .nav-links a {
       color: #e0e0e0;
       margin-left: 20px;
@@ -38,6 +48,7 @@
       font-weight: 500;
     }
 
+    /* AH- Adding hover effects for navigation links */
     .nav-links a:hover {
       background-color: rgba(42, 157, 143, 0.15);
       color: #2a9d8f;
@@ -45,10 +56,12 @@
       padding: 0.25rem 0.5rem;
     }
 
+    /* AH- Styling the main container */
     .container {
       padding: 2rem;
     }
 
+    /* AH- Styling the prayer times section */
     .prayer-times {
       background-color: #202020;
       padding: 1.5rem;
@@ -57,11 +70,13 @@
       margin-bottom: 2rem;
     }
 
+    /* AH- Styling prayer times heading */
     .prayer-times h3 {
       color: #ffffff;
       margin-bottom: 1rem;
     }
 
+    /* AH- Styling individual prayer time entries */
     .prayer-times p {
       background-color: #2b2b2b;
       padding: 0.5rem 1rem;
@@ -72,6 +87,7 @@
       color: #f1f1f1;
     }
 
+    /* AH- Styling the map container */
     #map {
       height: 500px;
       width: 100%;
@@ -80,12 +96,14 @@
       box-shadow: 0 0 12px rgba(0,0,0,0.5);
     }
 
+    /* AH- Styling the review section */
     .review-section {
       display: flex;
       flex-direction: column;
       gap: 2rem;
     }
 
+    /* AH- Styling review panel and reviews list */
     .review-panel, .reviews-list {
       background-color: #202020;
       padding: 1.5rem;
@@ -93,21 +111,25 @@
       box-shadow: 0 0 12px rgba(0,0,0,0.4);
     }
 
+    /* AH- Styling headings in review panel and reviews list */
     .review-panel h2, .reviews-list h3 {
       color: #ffffff;
       margin-bottom: 1rem;
     }
 
+    /* AH- Styling star rating elements */
     .star-rating .star {
       font-size: 1.5rem;
       color: #555;
       cursor: pointer;
     }
 
+    /* AH- Styling active star rating elements */
     .star-rating .star.active {
       color: gold;
     }
 
+    /* AH- Styling input fields and textareas */
     input[type="text"], textarea {
       width: 100%;
       padding: 0.75rem;
@@ -119,6 +141,7 @@
       color: #fff;
     }
 
+    /* AH- Styling buttons */
     button {
       background-color: #2a9d8f;
       color: #fff;
@@ -130,10 +153,12 @@
       transition: background 0.3s ease;
     }
 
+    /* AH- Adding hover effects for buttons */
     button:hover {
       background-color: #21867a;
     }
 
+    /* AH- Styling individual review cards */
     .review-card {
       background-color: #1f1f1f;
       padding: 1rem;
@@ -142,6 +167,7 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
 
+    /* AH- Styling the footer */
     footer {
       text-align: center;
       margin-top: 2rem;
@@ -153,9 +179,12 @@
   </style>
 </head>
 <body>
+  <!-- AH- Creating the header with navigation -->
   <header>
     <nav>
+      <!-- AH- Displaying the site title -->
       <h1>Halal Go</h1>
+      <!-- AH- Navigation links -->
       <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="restaurant.html">Halal Restaurants</a>
@@ -166,7 +195,9 @@
     </nav>
   </header>
 
+  <!-- AH- Main content container -->
   <div class="container">
+    <!-- AH- Prayer times section -->
     <div class="prayer-times">
       <h3>Prayer Times</h3>
       <p><strong>Fajr:</strong> 5:10 AM</p>
@@ -176,11 +207,15 @@
       <p><strong>Isha:</strong> 9:45 PM</p>
     </div>
 
+    <!-- AH- Map container -->
     <div id="map"></div>
 
+    <!-- AH- Review section with panel and list -->
     <div class="review-section">
+      <!-- AH- Review submission panel -->
       <div class="review-panel">
         <h2>Leave a Review</h2>
+        <!-- AH- Star rating system -->
         <div class="star-rating" id="starRating">
           <span class="star" data-value="1">★</span>
           <span class="star" data-value="2">★</span>
@@ -188,19 +223,25 @@
           <span class="star" data-value="4">★</span>
           <span class="star" data-value="5">★</span>
         </div>
+        <!-- AH- Review input fields -->
         <input type="text" id="userName" placeholder="Your Name" required>
         <textarea id="reviewText" placeholder="Your review..." required></textarea>
+        <!-- AH- Submit review button -->
         <button onclick="submitReview()">Submit Review</button>
       </div>
 
+      <!-- AH- Recent reviews list -->
       <div class="reviews-list" id="reviewsList">
         <h3>Recent Reviews</h3>
       </div>
     </div>
   </div>
 
+  <!-- AH- Including Leaflet JavaScript library -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- AH- JavaScript for map and review functionality -->
   <script>
+    // AH- Defining mosque locations
     const masjids = [
       { name: "Winona Islamic Center", lat: 44.049, lon: -91.639 },
       { name: "Masjid Al-Taqwa - Rochester", lat: 44.012, lon: -92.480 },
@@ -208,13 +249,20 @@
       { name: "Masjid Rawdah - Eau Claire", lat: 44.814, lon: -91.501 }
     ];
 
+    // AH- Declaring map variable
     let map;
+    // AH- Function to initialize the map
     function initMap(lat = 44.05, lng = -91.63) {
+      // AH- Removing existing map if present
       if (map) map.remove();
+      // AH- Creating new map instance
       map = L.map('map').setView([lat, lng], 11);
+      // AH- Adding OpenStreetMap tile layer
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+      // AH- Adding marker for user's location
       L.marker([lat, lng]).addTo(map).bindPopup('You are here').openPopup();
 
+      // AH- Adding markers for mosques
       masjids.forEach(masjid => {
         L.marker([masjid.lat, masjid.lon])
           .addTo(map)
@@ -222,36 +270,46 @@
       });
     }
 
+    // AH- Checking for geolocation support
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
+        // AH- Initializing map with user's location
         pos => initMap(pos.coords.latitude, pos.coords.longitude),
+        // AH- Fallback to default location if geolocation fails
         () => initMap()
       );
     } else {
+      // AH- Initializing map with default location
       initMap();
     }
 
+    // AH- Adding click event listeners for star rating
     document.querySelectorAll('.star').forEach(star => {
       star.addEventListener('click', function () {
         const rating = parseInt(this.dataset.value);
+        // AH- Toggling active class for stars
         document.querySelectorAll('.star').forEach((s, index) => {
           s.classList.toggle('active', index < rating);
         });
       });
     });
 
+    // AH- Loading reviews from localStorage
     const reviews = JSON.parse(localStorage.getItem("mosqueReviews")) || [];
 
+    // AH- Function to submit a new review
     function submitReview() {
       const name = document.getElementById('userName').value;
       const text = document.getElementById('reviewText').value;
       const rating = document.querySelectorAll('.star.active').length;
 
+      // AH- Validating input fields
       if (!name || !text || !rating) {
         alert('Please fill all fields!');
         return;
       }
 
+      // AH- Adding new review to array
       reviews.unshift({
         name,
         text,
@@ -259,17 +317,22 @@
         date: new Date().toLocaleDateString()
       });
 
+      // AH- Saving reviews to localStorage
       localStorage.setItem("mosqueReviews", JSON.stringify(reviews));
+      // AH- Updating displayed reviews
       updateReviews();
 
+      // AH- Clearing input fields
       document.getElementById('userName').value = '';
       document.getElementById('reviewText').value = '';
       document.querySelectorAll('.star').forEach(s => s.classList.remove('active'));
     }
 
+    // AH- Function to update displayed reviews
     function updateReviews() {
       const container = document.getElementById('reviewsList');
       container.innerHTML = '<h3>Recent Reviews</h3>';
+      // AH- Creating review cards
       reviews.forEach(review => {
         const div = document.createElement('div');
         div.className = 'review-card';
@@ -283,95 +346,115 @@
       });
     }
 
+    // AH- Initializing reviews display
     updateReviews();
   </script>
-  <!-- Chatbot HTML -->
-<div id="chat-container" style="position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999; font-family: sans-serif;">
-  <button id="chat-toggle" style="background: #3b82f6; color: white; border: none; width: 3.5rem; height: 3.5rem; border-radius: 50%; font-size: 1.5rem; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">💬</button>
-  <div id="chat-window" style="display: none; flex-direction: column; width: 16rem; max-height: 22rem; background: white; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); overflow: hidden; margin-top: 0.5rem;">
-    <header style="background: #3b82f6; color: white; padding: 0.5rem; font-weight: bold;">HalalGo Chat</header>
-    <div id="chat-messages" style="flex: 1; padding: 0.5rem; overflow-y: auto; font-size: 0.85rem;"></div>
-    <div id="chat-input-row" style="display: flex; border-top: 1px solid #ddd;">
-      <input id="chat-input" placeholder="Ask 'isha' or 'mosques'..." style="flex: 1; border: none; padding: 0.5rem; font-size: 0.85rem; outline: none;" />
-      <button id="chat-send" style="background: #3b82f6; border: none; color: white; padding: 0 1rem; cursor: pointer;">Send</button>
+  <!-- AH- Chatbot HTML structure -->
+  <div id="chat-container" style="position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999; font-family: sans-serif;">
+    <!-- AH- Chat toggle button -->
+    <button id="chat-toggle" style="background: #3b82f6; color: white; border: none; width: 3.5rem; height: 3.5rem; border-radius: 50%; font-size: 1.5rem; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">💬</button>
+    <!-- AH- Chat window -->
+    <div id="chat-window" style="display: none; flex-direction: column; width: 16rem; max-height: 22rem; background: white; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); overflow: hidden; margin-top: 0.5rem;">
+      <!-- AH- Chat header -->
+      <header style="background: #3b82f6; color: white; padding: 0.5rem; font-weight: bold;">HalalGo Chat</header>
+      <!-- AH- Chat messages container -->
+      <div id="chat-messages" style="flex: 1; padding: 0.5rem; overflow-y: auto; font-size: 0.85rem;"></div>
+      <!-- AH- Chat input row -->
+      <div id="chat-input-row" style="display: flex; border-top: 1px solid #ddd;">
+        <!-- AH- Chat input field -->
+        <input id="chat-input" placeholder="Ask 'isha' or 'mosques'..." style="flex: 1; border: none; padding: 0.5rem; font-size: 0.85rem; outline: none;" />
+        <!-- AH- Send button -->
+        <button id="chat-send" style="background: #3b82f6; border: none; color: white; padding: 0 1rem; cursor: pointer;">Send</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Chatbot Script -->
-<script>
-(function(){
-  const prayerSchedule = {
-    fajr: '5:10 AM',
-    dhuhr: '1:15 PM',
-    asr: '5:00 PM',
-    maghrib: '8:25 PM',
-    isha: '9:45 PM'
-  };
+  <!-- AH- Chatbot JavaScript -->
+  <script>
+  // AH- Immediately invoked function for chatbot logic
+  (function(){
+    // AH- Defining prayer schedule
+    const prayerSchedule = {
+      fajr: '5:10 AM',
+      dhuhr: '1:15 PM',
+      asr: '5:00 PM',
+      maghrib: '8:25 PM',
+      isha: '9:45 PM'
+    };
 
-  const dummyLocations = [
-    { type: 'mosque', name: 'Masjid AbuBakr', address: '321 3rd St NW' },
-    { type: 'mosque', name: 'Islamic Center', address: '123 Elton Hills Dr NW' }
-  ];
+    // AH- Defining dummy mosque locations
+    const dummyLocations = [
+      { type: 'mosque', name: 'Masjid AbuBakr', address: '321 3rd St NW' },
+      { type: 'mosque', name: 'Islamic Center', address: '123 Elton Hills Dr NW' }
+    ];
 
-  const ctr    = document.getElementById('chat-container');
-  const win    = document.getElementById('chat-window');
-  const msgs   = document.getElementById('chat-messages');
-  const inp    = document.getElementById('chat-input');
-  const send   = document.getElementById('chat-send');
-  const toggle = document.getElementById('chat-toggle');
+    // AH- Selecting DOM elements for chatbot
+    const ctr    = document.getElementById('chat-container');
+    const win    = document.getElementById('chat-window');
+    const msgs   = document.getElementById('chat-messages');
+    const inp    = document.getElementById('chat-input');
+    const send   = document.getElementById('chat-send');
+    const toggle = document.getElementById('chat-toggle');
 
-  function append(text, who) {
-    const d = document.createElement('div');
-    d.className = 'chat-msg ' + who;
-    const s = document.createElement('span');
-    s.textContent = text;
-    s.style.display = 'inline-block';
-    s.style.padding = '0.25rem 0.5rem';
-    s.style.borderRadius = '4px';
-    s.style.background = who === 'user' ? '#eff6ff' : '#f3f4f6';
-    s.style.color = who === 'user' ? '#1e3a8a' : '#374151';
-    d.style.marginBottom = '0.5rem';
-    d.style.textAlign = who === 'user' ? 'right' : 'left';
-    d.appendChild(s);
-    msgs.appendChild(d);
-    msgs.scrollTop = msgs.scrollHeight;
-  }
+    // AH- Function to append chat messages
+    function append(text, who) {
+      const d = document.createElement('div');
+      d.className = 'chat-msg ' + who;
+      const Estimates = document.createElement('span');
+      s.textContent = text;
+      s.style.display = 'inline-block';
+      s.style.padding = '0.25rem 0.5rem';
+      s.style.borderRadius = '4px';
+      s.style.background = who === 'user' ? '#eff6ff' : '#f3f4f6';
+      s.style.color = who === 'user' ? '#1e3a8a' : '#374151';
+      d.style.marginBottom = '0.5rem';
+      d.style.textAlign = who === 'user' ? 'right' : 'left';
+      d.appendChild(s);
+      msgs.appendChild(d);
+      msgs.scrollTop = msgs.scrollHeight;
+    }
 
-  toggle.addEventListener('click', () => {
-    win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
-  });
+    // AH- Toggling chat window visibility
+    toggle.addEventListener('click', () => {
+      win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
+    });
 
-  function handle() {
-    const text = inp.value.trim();
-    if (!text) return;
-    append(text, 'user');
-    inp.value = '';
-    let reply = "Sorry, I don't know that yet.";
-    const lower = text.toLowerCase();
+    // AH- Handling user input
+    function handle() {
+      const text = inp.value.trim();
+      if (!text) return;
+      // AH- Appending user message
+      append(text, 'user');
+      inp.value = '';
+      let reply = "Sorry, I don't know that yet.";
+      const lower = text.toLowerCase();
 
-    for (const [p, t] of Object.entries(prayerSchedule)) {
-      if (lower.includes(p)) {
-        reply = `${p.charAt(0).toUpperCase() + p.slice(1)} prayer is at ${t}.`;
-        break;
+      // AH- Checking for prayer time queries
+      for (const [p, t] of Object.entries(prayerSchedule)) {
+        if (lower.includes(p)) {
+          reply = `${p.charAt(0).toUpperCase() + p.slice(1)} prayer is at ${t}.`;
+          break;
+        }
       }
+
+      // AH- Checking for mosque queries
+      if (lower.includes('mosque')) {
+        reply = dummyLocations
+          .map(l => `${l.name} (${l.address})`)
+          .join("\n");
+      }
+
+      // AH- Appending bot response with delay
+      setTimeout(() => append(reply, 'bot'), 300);
     }
 
-    if (lower.includes('mosque')) {
-      reply = dummyLocations
-        .map(l => `${l.name} (${l.address})`)
-        .join("\n");
-    }
+    // AH- Adding event listeners for send button and Enter key
+    send.addEventListener('click', handle);
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') handle(); });
 
-    setTimeout(() => append(reply, 'bot'), 300);
-  }
-
-  send.addEventListener('click', handle);
-  inp.addEventListener('keydown', e => { if (e.key === 'Enter') handle(); });
-
-  append('Hi! Ask "prayer times" or "mosques" or "restaurants" to get started.', 'bot');
-})();
-</script>
-
+    // AH- Displaying welcome message
+    append('Hi! Ask "prayer times" or "mosques" or "restaurants" to get started.', 'bot');
+  })();
+  </script>
 </body>
 </html>
