@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- AH - This sets the character encoding and makes sure the layout works well on phones and desktops -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Halal Restaurant Finder</title>
+
+  <!-- AH - Leaflet is used here to pull in the map tiles and its styling -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="styles.css" />
-  
+
   <style>
+    /* AH - Base body styling to keep everything dark and clean */
     body {
       background-color: #181818;
       color: #f1f1f1;
@@ -15,33 +19,43 @@
       margin: 0;
       padding: 0;
     }
+
+    /* AH - Styles the header at the top of the page */
     header {
       background: rgba(24, 24, 24, 0.95);
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
       padding: 1rem 2rem;
     }
+
     nav h1 {
       color: #2a9d8f;
       display: inline;
     }
+
     .nav-links {
       float: right;
     }
+
+    /* AH - Styling each of the nav links */
     .nav-links a {
       color: #e0e0e0;
       margin-left: 20px;
       text-decoration: none;
       font-weight: 500;
     }
+
     .nav-links a:hover {
       background-color: rgba(42, 157, 143, 0.15);
       color: #2a9d8f;
       border-radius: 5px;
       padding: 0.25rem 0.5rem;
     }
+
     .container {
       padding: 2rem;
     }
+
+    /* AH - This is the map box itself */
     #map {
       height: 500px;
       width: 100%;
@@ -49,11 +63,15 @@
       margin-bottom: 2rem;
       box-shadow: 0 0 15px rgba(0,0,0,0.5);
     }
+
+    /* AH - Reviews and review form sit side-by-side */
     .review-section {
       display: flex;
       flex-direction: row;
       gap: 2rem;
     }
+
+    /* AH - Shared styling for review boxes */
     .review-panel, .reviews-list, #addRestaurantForm {
       background-color: #202020;
       padding: 1.5rem;
@@ -62,18 +80,24 @@
       margin-top: 1rem;
       flex: 1;
     }
+
     .review-panel h2, .reviews-list h3, #addRestaurantForm h3 {
       color: #ffffff;
       margin-bottom: 1rem;
     }
+
+    /* AH - Star system for ratings */
     .star-rating .star {
       font-size: 1.5rem;
       color: #666;
       cursor: pointer;
     }
+
     .star-rating .star.active {
       color: gold;
     }
+
+    /* AH - Styling for inputs and dropdowns */
     input[type="text"], textarea, select {
       width: 100%;
       padding: 0.75rem;
@@ -84,6 +108,8 @@
       border-radius: 8px;
       color: #fff;
     }
+
+    /* AH - Submit button style with hover effect */
     button {
       background-color: #2a9d8f;
       color: #fff;
@@ -94,9 +120,12 @@
       font-weight: 600;
       transition: background 0.3s ease;
     }
+
     button:hover {
       background-color: #21867a;
     }
+
+    /* AH - Each individual review card */
     .review-card {
       background-color: #1f1f1f;
       padding: 1rem;
@@ -104,6 +133,8 @@
       margin-top: 1rem;
       box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
+
+    /* AH - Halal tag style for review */
     .halal-badge {
       display: inline-block;
       padding: 0.25rem 0.5rem;
@@ -112,6 +143,8 @@
       font-size: 0.75rem;
       margin: 0.5rem 0;
     }
+
+    /* AH - Floating button to open add restaurant form */
     #addButton {
       position: fixed;
       bottom: 20px;
@@ -127,95 +160,9 @@
     }
   </style>
 </head>
-<div id="chatbot-container" style="position:fixed;bottom:1.5rem;left:1.5rem;z-index:10000;font-family:sans-serif;">
-  <button id="chatbot-toggle" style="background:#3b82f6;color:white;border:none;width:3rem;height:3rem;border-radius:50%;font-size:1.5rem;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,0.3);">💬</button>
-  <div id="chatbot-window" style="display:none;flex-direction:column;width:16rem;max-height:20rem;background:white;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.2);overflow:hidden;margin-top:0.5rem;">
-    <div style="background:#3b82f6;color:white;padding:0.5rem;font-weight:bold;">HalalGo Chat</div>
-    <div id="chatbot-messages" style="flex:1;padding:0.5rem;overflow-y:auto;font-size:0.85rem;"></div>
-    <div style="display:flex;border-top:1px solid #ddd;">
-      <input id="chatbot-input" placeholder="Ask me anything..." style="flex:1;border:none;padding:0.5rem;font-size:0.85rem;outline:none;">
-      <button id="chatbot-send" style="background:#3b82f6;border:none;color:white;padding:0 1rem;cursor:pointer;">Send</button>
-    </div>
-  </div>
-</div>
-
-<script>
-  const botToggle = document.getElementById("chatbot-toggle");
-  const botWindow = document.getElementById("chatbot-window");
-  const botSend = document.getElementById("chatbot-send");
-  const botInput = document.getElementById("chatbot-input");
-  const botMessages = document.getElementById("chatbot-messages");
-
-  botToggle.onclick = () => {
-    botWindow.style.display = botWindow.style.display === "none" ? "flex" : "none";
-  };
-
-  botSend.onclick = () => handleBotSend();
-  botInput.addEventListener("keypress", e => {
-    if (e.key === "Enter") handleBotSend();
-  });
-
-  function handleBotSend() {
-    const text = botInput.value.trim();
-    if (!text) return;
-    appendBotMessage("user", text);
-    botInput.value = "";
-    setTimeout(() => {
-      appendBotMessage("bot", generateBotReply(text));
-    }, 500);
-  }
-
-  function appendBotMessage(sender, message) {
-    const div = document.createElement("div");
-    div.style.margin = "0.25rem 0";
-    div.style.textAlign = sender === "user" ? "right" : "left";
-    const span = document.createElement("span");
-    span.textContent = message;
-    span.style.display = "inline-block";
-    span.style.padding = "0.25rem 0.5rem";
-    span.style.borderRadius = "4px";
-    span.style.background = sender === "user" ? "#eff6ff" : "#f3f4f6";
-    span.style.color = sender === "user" ? "#1e3a8a" : "#374151";
-    div.appendChild(span);
-    botMessages.appendChild(div);
-    botMessages.scrollTop = botMessages.scrollHeight;
-  }
-
-  function generateBotReply(input) {
-  const text = input.toLowerCase();
-  const prayerTimes = {
-    fajr: '5:30 AM',
-    dhuhr: '12:45 PM',
-    asr: '4:15 PM',
-    maghrib: '8:00 PM',
-    isha: '9:15 PM'
-  };
-
-  const specificPrayer = Object.keys(prayerTimes).find(p => text.includes(p));
-  if (specificPrayer) {
-    return `${specificPrayer.charAt(0).toUpperCase() + specificPrayer.slice(1)} prayer is at ${prayerTimes[specificPrayer]}.`;
-  }
-
-  if (text.includes("prayer time") || text.includes("prayer times") || text.includes("what time")) {
-    return `🕌 Today's Prayer Times in Rochester:\n• Fajr: ${prayerTimes.fajr}\n• Dhuhr: ${prayerTimes.dhuhr}\n• Asr: ${prayerTimes.asr}\n• Maghrib: ${prayerTimes.maghrib}\n• Isha: ${prayerTimes.isha}`;
-  }
-
-  if (text.includes("mosque") || text.includes("masjid")) {
-    return "🕌 Rochester Mosques:\n• Masjid AbuBakr (321 3rd St NW)\n• Islamic Center (123 Elton Hills Dr NW)";
-  }
-
-  if (text.includes("restaurant") || text.includes("food")) {
-    return "🍽️ Rochester Halal Restaurants:\n• Halal Bites - Rochester\n• Sabri Kitchen";
-  }
-
-  return "Sorry, I can help with halal restaurants, Rochester mosques, or prayer times. Try asking about those!";
-}
-
-
-</script>
-
 
 <body>
+  <!-- AH - This is the top navigation bar that lets users switch pages -->
   <header>
     <nav>
       <h1>Halal Go</h1>
@@ -228,9 +175,12 @@
       </div>
     </nav>
   </header>
+
+  <!-- AH - Main container for the map and reviews -->
   <div class="container">
     <div id="map"></div>
     <div class="review-section">
+      <!-- AH - Left panel for submitting a review -->
       <div class="review-panel">
         <h2>Leave a Review</h2>
         <select id="restaurantSelect" required>
@@ -242,6 +192,8 @@
           <option value="some-halal">Some Halal Options</option>
           <option value="not-halal">Not Halal</option>
         </select>
+
+        <!-- AH - 5-star clickable rating system -->
         <div class="star-rating" id="starRating">
           <span class="star" data-value="1">★</span>
           <span class="star" data-value="2">★</span>
@@ -249,15 +201,21 @@
           <span class="star" data-value="4">★</span>
           <span class="star" data-value="5">★</span>
         </div>
+
+        <!-- AH - Fields to capture the user's name and their written review -->
         <input type="text" id="userName" placeholder="Your Name" required>
         <textarea id="reviewText" placeholder="Your review..." required></textarea>
         <button onclick="submitReview()">Submit Review</button>
       </div>
+
+      <!-- AH - Right panel shows reviews other people left -->
       <div class="reviews-list" id="reviewsList">
         <h3>Recent Reviews</h3>
       </div>
     </div>
   </div>
+
+  <!-- AH - Hidden form to let users suggest new restaurants to add -->
   <div id="addRestaurantForm" style="display:none;" class="review-panel">
     <h3>Suggest a Restaurant</h3>
     <input type="text" id="newName" placeholder="Restaurant Name">
@@ -274,16 +232,37 @@
     </select>
     <button onclick="addRestaurant()">Submit</button>
   </div>
+
+  <!-- AH - Floating button to open/close the suggest form -->
   <button id="addButton" onclick="toggleAddForm()">+ Add Restaurant</button>
+
+  <!-- AH - Container and UI setup for chatbot popup at the bottom left -->
+  <div id="chatbot-container" style="position:fixed;bottom:1.5rem;left:1.5rem;z-index:10000;font-family:sans-serif;">
+    <button id="chatbot-toggle" style="background:#3b82f6;color:white;border:none;width:3rem;height:3rem;border-radius:50%;font-size:1.5rem;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,0.3);">💬</button>
+    <div id="chatbot-window" style="display:none;flex-direction:column;width:16rem;max-height:20rem;background:white;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,0.2);overflow:hidden;margin-top:0.5rem;">
+      <div style="background:#3b82f6;color:white;padding:0.5rem;font-weight:bold;">HalalGo Chat</div>
+      <div id="chatbot-messages" style="flex:1;padding:0.5rem;overflow-y:auto;font-size:0.85rem;"></div>
+      <div style="display:flex;border-top:1px solid #ddd;">
+        <input id="chatbot-input" placeholder="Ask me anything..." style="flex:1;border:none;padding:0.5rem;font-size:0.85rem;outline:none;">
+        <button id="chatbot-send" style="background:#3b82f6;border:none;color:white;padding:0 1rem;cursor:pointer;">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AH - Load Leaflet JS library for the map rendering -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
+    // AH - Hardcoded starter list of halal restaurants (name + coordinates)
     const halalRestaurants = [
       { name: "Sabri Kitchen", lat: 44.05, lon: -91.63 },
       { name: "Halal Bites - Rochester", lat: 44.013, lon: -92.475 },
       { name: "Crescent Grill - La Crosse", lat: 43.812, lon: -91.252 },
       { name: "Desi Dhaba - Eau Claire", lat: 44.813, lon: -91.502 }
     ];
+
     let map;
+
+    // AH - Initializes the map and places the user's location with default fallback
     function initMap(lat = 44.05, lng = -91.63) {
       if (map) map.remove();
       map = L.map('map').setView([lat, lng], 11);
@@ -291,6 +270,8 @@
       L.marker([lat, lng]).addTo(map).bindPopup('You are here').openPopup();
       halalRestaurants.forEach(restaurant => addMarker(restaurant));
     }
+
+    // AH - Adds a marker on the map and also puts it in the dropdown
     function addMarker(r) {
       L.marker([r.lat, r.lon]).addTo(map).bindPopup(r.name);
       const option = document.createElement("option");
@@ -298,10 +279,14 @@
       option.textContent = r.name;
       document.getElementById("restaurantSelect").appendChild(option);
     }
+
+    // AH - Toggles the visibility of the add restaurant form
     function toggleAddForm() {
       const form = document.getElementById("addRestaurantForm");
       form.style.display = form.style.display === "none" ? "block" : "none";
     }
+
+    // AH - Adds a new restaurant by geocoding the address using OpenStreetMap
     async function addRestaurant() {
       const name = document.getElementById("newName").value.trim();
       const type = document.getElementById("newType").value.trim();
@@ -314,6 +299,7 @@
         alert("Please fill all fields.");
         return;
       }
+
       const address = `${street}, ${city}, ${state} ${zip}`;
       try {
         const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
@@ -331,6 +317,8 @@
         alert("Could not find location. Please check the address.");
       }
     }
+
+    // AH - Automatically try to use geolocation, else fallback
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         pos => initMap(pos.coords.latitude, pos.coords.longitude),
@@ -339,6 +327,8 @@
     } else {
       initMap();
     }
+
+    // AH - Star rating logic to highlight selected stars
     document.querySelectorAll('.star').forEach(star => {
       star.addEventListener('click', function () {
         const rating = parseInt(this.dataset.value);
@@ -347,26 +337,36 @@
         });
       });
     });
+
+    // AH - Pull existing reviews from local storage or start empty
     const reviews = JSON.parse(localStorage.getItem("restaurantReviews")) || [];
+
+    // AH - Submits a review and saves it locally
     function submitReview() {
       const name = document.getElementById('userName').value;
       const text = document.getElementById('reviewText').value;
       const rating = document.querySelectorAll('.star.active').length;
       const halalStatus = document.getElementById('halalStatus').value;
       const restaurant = document.getElementById('restaurantSelect').value;
+
       if (!name || !text || !rating || !halalStatus || !restaurant) {
         alert('Please fill all fields!');
         return;
       }
+
       reviews.unshift({ name, text, rating, halalStatus, restaurant, date: new Date().toLocaleDateString() });
       localStorage.setItem("restaurantReviews", JSON.stringify(reviews));
       updateReviews();
+
+      // AH - Clear form after submission
       document.getElementById('userName').value = '';
       document.getElementById('reviewText').value = '';
       document.getElementById('halalStatus').value = '';
       document.getElementById('restaurantSelect').value = '';
       document.querySelectorAll('.star').forEach(s => s.classList.remove('active'));
     }
+
+    // AH - Updates the reviews display panel
     function updateReviews() {
       const container = document.getElementById('reviewsList');
       container.innerHTML = '<h3>Recent Reviews</h3>';
@@ -385,6 +385,8 @@
         container.appendChild(div);
       });
     }
+
+    // AH - Determines badge color based on halal status
     function getStatusColor(status) {
       const colors = {
         'halal-certified': '#4CAF50',
@@ -393,12 +395,84 @@
       };
       return colors[status] || '#666';
     }
-    updateReviews();
-    
-    
-    
-  </script>
 
-  
+    // AH - Show existing reviews when page loads
+    updateReviews();
+
+    // AH - Simple chatbot toggle and message handling
+    const botToggle = document.getElementById("chatbot-toggle");
+    const botWindow = document.getElementById("chatbot-window");
+    const botSend = document.getElementById("chatbot-send");
+    const botInput = document.getElementById("chatbot-input");
+    const botMessages = document.getElementById("chatbot-messages");
+
+    botToggle.onclick = () => {
+      botWindow.style.display = botWindow.style.display === "none" ? "flex" : "none";
+    };
+
+    botSend.onclick = () => handleBotSend();
+    botInput.addEventListener("keypress", e => {
+      if (e.key === "Enter") handleBotSend();
+    });
+
+    // AH - Sends user's input and responds with predefined logic
+    function handleBotSend() {
+      const text = botInput.value.trim();
+      if (!text) return;
+      appendBotMessage("user", text);
+      botInput.value = "";
+      setTimeout(() => {
+        appendBotMessage("bot", generateBotReply(text));
+      }, 500);
+    }
+
+    // AH - Append message into the chatbot window
+    function appendBotMessage(sender, message) {
+      const div = document.createElement("div");
+      div.style.margin = "0.25rem 0";
+      div.style.textAlign = sender === "user" ? "right" : "left";
+      const span = document.createElement("span");
+      span.textContent = message;
+      span.style.display = "inline-block";
+      span.style.padding = "0.25rem 0.5rem";
+      span.style.borderRadius = "4px";
+      span.style.background = sender === "user" ? "#eff6ff" : "#f3f4f6";
+      span.style.color = sender === "user" ? "#1e3a8a" : "#374151";
+      div.appendChild(span);
+      botMessages.appendChild(div);
+      botMessages.scrollTop = botMessages.scrollHeight;
+    }
+
+    // AH - Custom simple replies for known keywords like prayer, mosque, food
+    function generateBotReply(input) {
+      const text = input.toLowerCase();
+      const prayerTimes = {
+        fajr: '5:30 AM',
+        dhuhr: '12:45 PM',
+        asr: '4:15 PM',
+        maghrib: '8:00 PM',
+        isha: '9:15 PM'
+      };
+
+      const specificPrayer = Object.keys(prayerTimes).find(p => text.includes(p));
+      if (specificPrayer) {
+        return `${specificPrayer.charAt(0).toUpperCase() + specificPrayer.slice(1)} prayer is at ${prayerTimes[specificPrayer]}.`;
+      }
+
+      if (text.includes("prayer time") || text.includes("prayer times") || text.includes("what time")) {
+        return `🕌 Today's Prayer Times in Rochester:\n• Fajr: ${prayerTimes.fajr}\n• Dhuhr: ${prayerTimes.dhuhr}\n• Asr: ${prayerTimes.asr}\n• Maghrib: ${prayerTimes.maghrib}\n• Isha: ${prayerTimes.isha}`;
+      }
+
+      if (text.includes("mosque") || text.includes("masjid")) {
+        return "🕌 Rochester Mosques:\n• Masjid AbuBakr (321 3rd St NW)\n• Islamic Center (123 Elton Hills Dr NW)";
+      }
+
+      if (text.includes("restaurant") || text.includes("food")) {
+        return "🍽️ Rochester Halal Restaurants:\n• Halal Bites - Rochester\n• Sabri Kitchen";
+      }
+
+      return "Sorry, I can help with halal restaurants, Rochester mosques, or prayer times. Try asking about those!";
+    }
+  </script>
 </body>
 </html>
