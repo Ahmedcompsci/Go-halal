@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- page setup stuff -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login | Halal Go</title>
   <link rel="stylesheet" href="styles.css">
+
   <style>
+    /* page background and text */
     body {
       background: url('images/login-bg.jpg') no-repeat center center fixed;
       background-size: cover;
@@ -13,24 +16,29 @@
       font-family: 'Poppins', sans-serif;
     }
 
+    /* top bar */
     header {
       background: rgba(18, 18, 18, 0.95);
       box-shadow: var(--shadow-sm);
     }
 
+    /* title color */
     nav h1 {
       color: var(--primary);
     }
 
+    /* nav link color */
     .nav-links a {
       color: #ddd;
     }
 
+    /* nav link hover effect */
     .nav-links a:hover {
       background-color: rgba(42, 157, 143, 0.15);
       color: var(--primary);
     }
 
+    /* login box container */
     .auth-container {
       max-width: 420px;
       margin: 6rem auto;
@@ -40,6 +48,7 @@
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
     }
 
+    /* login title */
     .auth-container h2 {
       text-align: center;
       margin-bottom: 2rem;
@@ -47,10 +56,12 @@
       font-size: 2rem;
     }
 
+    /* form spacing */
     .form-group {
       margin-bottom: 1.5rem;
     }
 
+    /* label styling */
     .form-group label {
       display: block;
       margin-bottom: 0.5rem;
@@ -58,6 +69,7 @@
       color: #cccccc;
     }
 
+    /* input boxes */
     .form-group input {
       width: 100%;
       padding: 0.875rem;
@@ -69,12 +81,14 @@
       transition: border-color 0.3s ease;
     }
 
+    /* input focus effect */
     .form-group input:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
     }
 
+    /* login button */
     .btn {
       display: block;
       width: 100%;
@@ -89,11 +103,13 @@
       transition: background 0.3s ease, transform 0.2s ease;
     }
 
+    /* button hover effect */
     .btn:hover {
       background: var(--accent);
       transform: translateY(-2px);
     }
 
+    /* footer text */
     footer {
       text-align: center;
       margin-top: 4rem;
@@ -105,6 +121,8 @@
   </style>
 </head>
 <body>
+
+  <!-- top nav bar -->
   <header>
     <nav>
       <h1>Halal Go</h1>
@@ -118,210 +136,135 @@
     </nav>
   </header>
 
+  <!-- login main content -->
   <main>
     <section class="auth-container">
       <h2>Login</h2>
       <form onsubmit="handleLogin(event)">
+        <!-- email input -->
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" id="email" name="email" required>
         </div>
+
+        <!-- password input -->
         <div class="form-group">
           <label for="password">Password</label>
           <input type="password" id="password" name="password" required>
         </div>
+
+        <!-- submit button -->
         <button type="submit" class="btn">Login</button>
       </form>
     </section>
   </main>
 
+  <!-- bottom of page -->
   <footer>
     &copy; 2025 Halal Go. All rights reserved.
   </footer>
 
+  <!-- external script file -->
   <script src="script.js"></script>
-  <!-- Chatbot HTML -->
-<div id="chat-container" style="position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999; font-family: sans-serif;">
-  <button id="chat-toggle" style="background: #3b82f6; color: white; border: none; width: 3.5rem; height: 3.5rem; border-radius: 50%; font-size: 1.5rem; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">💬</button>
-  <div id="chat-window" style="display: none; flex-direction: column; width: 16rem; max-height: 22rem; background: white; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); overflow: hidden; margin-top: 0.5rem;">
-    <header style="background: #3b82f6; color: white; padding: 0.5rem; font-weight: bold;">HalalGo Chat</header>
-    <div id="chat-messages" style="flex: 1; padding: 0.5rem; overflow-y: auto; font-size: 0.85rem;"></div>
-    <div id="chat-input-row" style="display: flex; border-top: 1px solid #ddd;">
-      <input id="chat-input" placeholder="Ask 'isha' or 'mosques'..." style="flex: 1; border: none; padding: 0.5rem; font-size: 0.85rem; outline: none;" />
-      <button id="chat-send" style="background: #3b82f6; border: none; color: white; padding: 0 1rem; cursor: pointer;">Send</button>
+
+  <!-- chatbot floating icon -->
+  <div id="chat-container" style="position: fixed; bottom: 1.5rem; right: 1.5rem;">
+    <button id="chat-toggle">💬</button>
+    <div id="chat-window" style="display: none;">
+      <header>HalalGo Chat</header>
+      <div id="chat-messages"></div>
+      <div id="chat-input-row">
+        <input id="chat-input" placeholder="Ask 'isha' or 'mosques'..." />
+        <button id="chat-send">Send</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Chatbot Script -->
-<script>
-(function(){
-  const prayerSchedule = {
-    fajr: '5:30 AM',
-    dhuhr: '12:45 PM',
-    asr: '4:15 PM',
-    maghrib: '8:00 PM',
-    isha: '9:15 PM'
-  };
+  <!-- chatbot logic -->
+  <script>
+  (function(){
+    // fake prayer times
+    const prayerSchedule = {
+      fajr: '5:10 AM',
+      dhuhr: '1:15 PM',
+      asr: '5:00 PM',
+      maghrib: '8:25 PM',
+      isha: '9:45 PM'
+    };
 
-  const dummyLocations = [
-    { type: 'restaurant', name: 'Halal Bites - Rochester', address: '255 1st Ave SW', menu: ['Mezze Platter','Lamb Kebabs'] },
-    { type: 'restaurant', name: 'Rose Turkish Kitchen', address: '789 Broadway Ave SE', menu: ['Doner Kebab','Baklava'] },
-    { type: 'mosque', name: 'Masjid AbuBakr', address: '321 3rd St NW' },
-    { type: 'mosque', name: 'Islamic Center', address: '123 Elton Hills Dr NW' }
-  ];
+    // fake places data
+    const dummyLocations = [
+      { type: 'mosque', name: 'Masjid AbuBakr', address: '321 3rd St NW' },
+      { type: 'mosque', name: 'Islamic Center', address: '123 Elton Hills Dr NW' }
+    ];
 
-  const ctr    = document.getElementById('chat-container');
-  const win    = document.getElementById('chat-window');
-  const msgs   = document.getElementById('chat-messages');
-  const inp    = document.getElementById('chat-input');
-  const send   = document.getElementById('chat-send');
-  const toggle = document.getElementById('chat-toggle');
+    // grab all elements
+    const ctr    = document.getElementById('chat-container');
+    const win    = document.getElementById('chat-window');
+    const msgs   = document.getElementById('chat-messages');
+    const inp    = document.getElementById('chat-input');
+    const send   = document.getElementById('chat-send');
+    const toggle = document.getElementById('chat-toggle');
 
-  function append(text, who) {
-    const d = document.createElement('div');
-    d.className = 'chat-msg ' + who;
-    const s = document.createElement('span');
-    s.textContent = text;
-    s.style.display = 'inline-block';
-    s.style.padding = '0.25rem 0.5rem';
-    s.style.borderRadius = '4px';
-    s.style.background = who === 'user' ? '#eff6ff' : '#f3f4f6';
-    s.style.color = who === 'user' ? '#1e3a8a' : '#374151';
-    d.style.marginBottom = '0.5rem';
-    d.style.textAlign = who === 'user' ? 'right' : 'left';
-    d.appendChild(s);
-    msgs.appendChild(d);
-    msgs.scrollTop = msgs.scrollHeight;
-  }
+    // show message in chat
+    function append(text, who) {
+      const d = document.createElement('div');
+      d.className = 'chat-msg ' + who;
+      const s = document.createElement('span');
+      s.textContent = text;
+      s.style.display = 'inline-block';
+      s.style.padding = '0.25rem 0.5rem';
+      s.style.borderRadius = '4px';
+      s.style.background = who === 'user' ? '#eff6ff' : '#f3f4f6';
+      s.style.color = who === 'user' ? '#1e3a8a' : '#374151';
+      d.style.marginBottom = '0.5rem';
+      d.style.textAlign = who === 'user' ? 'right' : 'left';
+      d.appendChild(s);
+      msgs.appendChild(d);
+      msgs.scrollTop = msgs.scrollHeight;
+    }
 
-  toggle.addEventListener('click', () => {
-    win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
-  });
+    // toggle chat window
+    toggle.addEventListener('click', () => {
+      win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
+    });
 
-  function handle() {
-    const text = inp.value.trim();
-    if (!text) return;
-    append(text, 'user');
-    inp.value = '';
-    let reply = "Sorry, I don't know that yet.";
-    const lower = text.toLowerCase();
+    // bot reply logic
+    function handle() {
+      const text = inp.value.trim();
+      if (!text) return;
+      append(text, 'user');
+      inp.value = '';
+      let reply = "sorry, i don't know that.";
+      const lower = text.toLowerCase();
 
-    for (const [p, t] of Object.entries(prayerSchedule)) {
-      if (lower.includes(p)) {
-        reply = `${p.charAt(0).toUpperCase() + p.slice(1)} prayer is at ${t}.`;
-        break;
+      // check prayer name
+      for (const [p, t] of Object.entries(prayerSchedule)) {
+        if (lower.includes(p)) {
+          reply = `${p.charAt(0).toUpperCase() + p.slice(1)} prayer is at ${t}.`;
+          break;
+        }
       }
-    }
 
-    if (lower.includes('mosque')) {
-      reply = dummyLocations.filter(l => l.type === 'mosque')
-        .map(l => `${l.name} (${l.address})`)
-        .join("\n");
-    }
-
-    if (lower.includes('food') || lower.includes('restaurant')) {
-      reply = dummyLocations.filter(l => l.type === 'restaurant')
-        .map(r => `${r.name} (${r.address}) – Menu: ${r.menu.join(', ')}`)
-        .join("\n");
-    }
-
-    setTimeout(() => append(reply, 'bot'), 300);
-  }
-
-  send.addEventListener('click', handle);
-  inp.addEventListener('keydown', e => { if (e.key === 'Enter') handle(); });
-
-  append('Hi! Ask about "prayer times", "restaurants", or "mosques".', 'bot');
-})();
-</script>
-<!-- Chatbot HTML -->
-<div id="chat-container" style="position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999; font-family: sans-serif;">
-  <button id="chat-toggle" style="background: #3b82f6; color: white; border: none; width: 3.5rem; height: 3.5rem; border-radius: 50%; font-size: 1.5rem; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">💬</button>
-  <div id="chat-window" style="display: none; flex-direction: column; width: 16rem; max-height: 22rem; background: white; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); overflow: hidden; margin-top: 0.5rem;">
-    <header style="background: #3b82f6; color: white; padding: 0.5rem; font-weight: bold;">HalalGo Chat</header>
-    <div id="chat-messages" style="flex: 1; padding: 0.5rem; overflow-y: auto; font-size: 0.85rem;"></div>
-    <div id="chat-input-row" style="display: flex; border-top: 1px solid #ddd;">
-      <input id="chat-input" placeholder="Ask 'isha' or 'mosques'..." style="flex: 1; border: none; padding: 0.5rem; font-size: 0.85rem; outline: none;" />
-      <button id="chat-send" style="background: #3b82f6; border: none; color: white; padding: 0 1rem; cursor: pointer;">Send</button>
-    </div>
-  </div>
-</div>
-
-<!-- Chatbot Script -->
-<script>
-(function(){
-  const prayerSchedule = {
-    fajr: '5:10 AM',
-    dhuhr: '1:15 PM',
-    asr: '5:00 PM',
-    maghrib: '8:25 PM',
-    isha: '9:45 PM'
-  };
-
-  const dummyLocations = [
-    { type: 'mosque', name: 'Masjid AbuBakr', address: '321 3rd St NW' },
-    { type: 'mosque', name: 'Islamic Center', address: '123 Elton Hills Dr NW' }
-  ];
-
-  const ctr    = document.getElementById('chat-container');
-  const win    = document.getElementById('chat-window');
-  const msgs   = document.getElementById('chat-messages');
-  const inp    = document.getElementById('chat-input');
-  const send   = document.getElementById('chat-send');
-  const toggle = document.getElementById('chat-toggle');
-
-  function append(text, who) {
-    const d = document.createElement('div');
-    d.className = 'chat-msg ' + who;
-    const s = document.createElement('span');
-    s.textContent = text;
-    s.style.display = 'inline-block';
-    s.style.padding = '0.25rem 0.5rem';
-    s.style.borderRadius = '4px';
-    s.style.background = who === 'user' ? '#eff6ff' : '#f3f4f6';
-    s.style.color = who === 'user' ? '#1e3a8a' : '#374151';
-    d.style.marginBottom = '0.5rem';
-    d.style.textAlign = who === 'user' ? 'right' : 'left';
-    d.appendChild(s);
-    msgs.appendChild(d);
-    msgs.scrollTop = msgs.scrollHeight;
-  }
-
-  toggle.addEventListener('click', () => {
-    win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
-  });
-
-  function handle() {
-    const text = inp.value.trim();
-    if (!text) return;
-    append(text, 'user');
-    inp.value = '';
-    let reply = "Sorry, I don't know that yet.";
-    const lower = text.toLowerCase();
-
-    for (const [p, t] of Object.entries(prayerSchedule)) {
-      if (lower.includes(p)) {
-        reply = `${p.charAt(0).toUpperCase() + p.slice(1)} prayer is at ${t}.`;
-        break;
+      // check mosque keyword
+      if (lower.includes('mosque')) {
+        reply = dummyLocations
+          .map(l => `${l.name} (${l.address})`)
+          .join("\n");
       }
+
+      // show bot reply
+      setTimeout(() => append(reply, 'bot'), 300);
     }
 
-    if (lower.includes('mosque')) {
-      reply = dummyLocations
-        .map(l => `${l.name} (${l.address})`)
-        .join("\n");
-    }
+    // send button and enter key
+    send.addEventListener('click', handle);
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') handle(); });
 
-    setTimeout(() => append(reply, 'bot'), 300);
-  }
-
-  send.addEventListener('click', handle);
-  inp.addEventListener('keydown', e => { if (e.key === 'Enter') handle(); });
-
-  append('Hi! Ask "prayer times" or "mosques" to get started.', 'bot');
-})();
-</script>
+    // intro message
+    append('hi! ask "prayer times" or "mosques".', 'bot');
+  })();
+  </script>
 
 </body>
 </html>
