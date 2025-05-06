@@ -1,10 +1,14 @@
 // script.js
+
+// Import initialized Firestore database instance
 import { db } from "./Go-halal-oz-shark-duo/firebase-init.js";
+// Import Firestore functions for adding documents and timestamps
 import { addDoc, collection, serverTimestamp }
   from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
 // —— RESTAURANT/MOSQUE DATA & MAP ——
-// in your restaurant.html / script.js
+
+/** List of halal restaurants with their coordinates */
 const halalRestaurants = [
   { name: "Sabri Kitchen",               lat: 44.05,   lon: -91.63   },
   { name: "Halal Bites - Rochester",     lat: 44.013,  lon: -92.475  },
@@ -15,7 +19,7 @@ const halalRestaurants = [
   { name: "Abu Huraira Restaurant",      lat: 44.0231, lon: -92.4911 },
 ];
 
-
+        /** List of mosques with their coordinates */
 const masjids = [
   { name: "Winona Islamic Center",       lat: 44.049,  lon: -91.639  },
   { name: "Masjid Al-Taqwa - Rochester", lat: 44.012,  lon: -92.480  },
@@ -26,13 +30,26 @@ const masjids = [
   { name: "Islamic Dawah Center",        lat: 44.0225, lon: -92.4795 },
 ];
 
+/**
+ * Initializes a Leaflet map in the given element and plots markers
+ * @param {string} mapId  - ID of the HTML element to attach the map
+ * @param {Array}  data   - Array of locations ({ name, lat, lon })
+ */
 function initMap(mapId, data) {
+  // Create map centered on default coords
   const map = L.map(mapId).setView([44.05, -91.63], 11);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    // Add OpenStreetMap tile layer
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+    .addTo(map);
+
+      // If user grants location access, recenter the map on their position
   navigator.geolocation.getCurrentPosition(
     pos => map.setView([pos.coords.latitude, pos.coords.longitude], 13),
     () => {}
   );
+
+          // Plots  each location as a clickable marker
   data.forEach(item => {
     L.marker([item.lat, item.lon])
       .addTo(map)
@@ -40,8 +57,9 @@ function initMap(mapId, data) {
   });
 }
 
+    // Waits until the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', () => {
-  // initialize restaurant page
+  // If we're on the restaurant page, it sets up map and dropdown
   if (document.getElementById('restaurantSelect')) {
     initMap('map', halalRestaurants);
     halalRestaurants.forEach(r => {
@@ -51,12 +69,13 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('restaurantSelect').append(opt);
     });
   }
-  // initialize masjid page
+
+  // If data-page="masjid",  then initialize the mosque map
   if (document.body.dataset.page === 'masjid') {
     initMap('map', masjids);
   }
 
-  // star rating handler
+  // Handles the  star-rating clicks: toggles 'active' class up to selected value
   document.querySelectorAll('.star').forEach(s => {
     s.addEventListener('click', () => {
       const rating = +s.dataset.value;
@@ -66,8 +85,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// —— Submit Review (restaurant/masjid) ——
+        // —— Submits the Review (restaurant/masjid) ——
+
+/**
+ * Gathers review form data, validates it, and writes to Firestore
+ * @param {string} page - "restaurant" or "masjid"
+ */
 export async function submitReview(page) {
+  // Read user inputs
   const name        = document.getElementById('userName').value.trim();
   const text        = document.getElementById('reviewText').value.trim();
   const rating      = document.querySelectorAll('.star.active').length;
@@ -78,11 +103,13 @@ export async function submitReview(page) {
     ? document.getElementById('restaurantSelect').value
     : null;
 
+  // Basic form validation
   if (!name || !text || rating === 0 || (page==='restaurant' && !halalStatus)) {
     alert('Please fill all fields!');
     return;
   }
 
+  // Writes the  review document to Firestore
   try {
     await addDoc(collection(db, 'reviews'), {
       name,
@@ -99,9 +126,8 @@ export async function submitReview(page) {
     return;
   }
 
-  // original UI update code here…
 }
 
-// expose for inline onclick
-window.submitReview = () => submitReview('restaurant');
-window.submitReviewMasjid = () => submitReview('masjid');
+// Makes the  functions available for inline onclick handlers
+window.submitReview          = () => submitReview('restaurant');
+window.submitReviewMasjid    = () => submitReview('masjid');
