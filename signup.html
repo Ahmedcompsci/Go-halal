@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- basic page setup -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign Up | Halal Go</title>
   <link rel="stylesheet" href="styles.css">
   <style>
+    /* page background and font */
     body {
       background: url('images/signup-bg.jpg') no-repeat center center fixed;
       background-size: cover;
@@ -13,24 +15,29 @@
       font-family: 'Poppins', sans-serif;
     }
 
+    /* top bar */
     header {
       background: rgba(18, 18, 18, 0.95);
       box-shadow: var(--shadow-sm);
     }
 
+    /* site name color */
     nav h1 {
       color: var(--primary);
     }
 
+    /* nav links */
     .nav-links a {
       color: #ddd;
     }
 
+    /* nav hover effect */
     .nav-links a:hover {
       background-color: rgba(42, 157, 143, 0.15);
       color: var(--primary);
     }
 
+    /* signup box styling */
     .auth-container {
       max-width: 420px;
       margin: 6rem auto;
@@ -40,6 +47,7 @@
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
     }
 
+    /* signup title */
     .auth-container h2 {
       text-align: center;
       margin-bottom: 2rem;
@@ -47,10 +55,12 @@
       font-size: 2rem;
     }
 
+    /* spacing between inputs */
     .form-group {
       margin-bottom: 1.5rem;
     }
 
+    /* labels above fields */
     .form-group label {
       display: block;
       margin-bottom: 0.5rem;
@@ -58,6 +68,7 @@
       color: #cccccc;
     }
 
+    /* input box style */
     .form-group input {
       width: 100%;
       padding: 0.875rem;
@@ -69,12 +80,14 @@
       transition: border-color 0.3s ease;
     }
 
+    /* focus glow effect */
     .form-group input:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
     }
 
+    /* big signup button */
     .btn {
       display: block;
       width: 100%;
@@ -89,11 +102,13 @@
       transition: background 0.3s ease, transform 0.2s ease;
     }
 
+    /* hover effect for button */
     .btn:hover {
       background: var(--accent);
       transform: translateY(-2px);
     }
 
+    /* footer at bottom */
     footer {
       text-align: center;
       margin-top: 4rem;
@@ -106,6 +121,7 @@
 </head>
 
 <body>
+  <!-- top nav bar -->
   <header>
     <nav>
       <h1>Halal Go</h1>
@@ -119,119 +135,141 @@
     </nav>
   </header>
 
+  <!-- main signup area -->
   <main>
     <section class="auth-container">
       <h2>Sign Up</h2>
       <form onsubmit="handleSignup(event)">
+        <!-- name field -->
         <div class="form-group">
           <label for="name">Name</label>
           <input type="text" id="name" name="name" required>
         </div>
+
+        <!-- email field -->
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" id="email" name="email" required>
         </div>
+
+        <!-- password field -->
         <div class="form-group">
           <label for="password">Password</label>
           <input type="password" id="password" name="password" required>
         </div>
+
+        <!-- signup button -->
         <button type="submit" class="btn">Sign Up</button>
       </form>
     </section>
   </main>
 
+  <!-- page footer -->
   <footer>
     &copy; 2025 Halal Go. All rights reserved.
   </footer>
 
+  <!-- external js file -->
   <script src="script.js"></script>
-  <!-- Chatbot HTML -->
-<div id="chat-container" style="position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999; font-family: sans-serif;">
-  <button id="chat-toggle" style="background: #3b82f6; color: white; border: none; width: 3.5rem; height: 3.5rem; border-radius: 50%; font-size: 1.5rem; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">💬</button>
-  <div id="chat-window" style="display: none; flex-direction: column; width: 16rem; max-height: 22rem; background: white; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); overflow: hidden; margin-top: 0.5rem;">
-    <header style="background: #3b82f6; color: white; padding: 0.5rem; font-weight: bold;">HalalGo Chat</header>
-    <div id="chat-messages" style="flex: 1; padding: 0.5rem; overflow-y: auto; font-size: 0.85rem;"></div>
-    <div id="chat-input-row" style="display: flex; border-top: 1px solid #ddd;">
-      <input id="chat-input" placeholder="Ask 'isha' or 'mosques'..." style="flex: 1; border: none; padding: 0.5rem; font-size: 0.85rem; outline: none;" />
-      <button id="chat-send" style="background: #3b82f6; border: none; color: white; padding: 0 1rem; cursor: pointer;">Send</button>
+
+  <!-- chatbox button -->
+  <div id="chat-container" style="position: fixed; bottom: 1.5rem; right: 1.5rem;">
+    <button id="chat-toggle">💬</button>
+    <div id="chat-window" style="display: none;">
+      <header>HalalGo Chat</header>
+      <div id="chat-messages"></div>
+      <div id="chat-input-row">
+        <input id="chat-input" placeholder="Ask 'isha' or 'mosques'..." />
+        <button id="chat-send">Send</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Chatbot Script -->
-<script>
-(function(){
-  const prayerSchedule = {
-    fajr: '5:10 AM',
-    dhuhr: '1:15 PM',
-    asr: '5:00 PM',
-    maghrib: '8:25 PM',
-    isha: '9:45 PM'
-  };
+  <!-- chatbox logic -->
+  <script>
+  (function(){
+    // fake prayer times
+    const prayerSchedule = {
+      fajr: '5:10 AM',
+      dhuhr: '1:15 PM',
+      asr: '5:00 PM',
+      maghrib: '8:25 PM',
+      isha: '9:45 PM'
+    };
 
-  const dummyLocations = [
-    { type: 'mosque', name: 'Masjid AbuBakr', address: '321 3rd St NW' },
-    { type: 'mosque', name: 'Islamic Center', address: '123 Elton Hills Dr NW' }
-  ];
+    // dummy mosque list
+    const dummyLocations = [
+      { type: 'mosque', name: 'Masjid AbuBakr', address: '321 3rd St NW' },
+      { type: 'mosque', name: 'Islamic Center', address: '123 Elton Hills Dr NW' }
+    ];
 
-  const ctr    = document.getElementById('chat-container');
-  const win    = document.getElementById('chat-window');
-  const msgs   = document.getElementById('chat-messages');
-  const inp    = document.getElementById('chat-input');
-  const send   = document.getElementById('chat-send');
-  const toggle = document.getElementById('chat-toggle');
+    // get chat elements
+    const ctr    = document.getElementById('chat-container');
+    const win    = document.getElementById('chat-window');
+    const msgs   = document.getElementById('chat-messages');
+    const inp    = document.getElementById('chat-input');
+    const send   = document.getElementById('chat-send');
+    const toggle = document.getElementById('chat-toggle');
 
-  function append(text, who) {
-    const d = document.createElement('div');
-    d.className = 'chat-msg ' + who;
-    const s = document.createElement('span');
-    s.textContent = text;
-    s.style.display = 'inline-block';
-    s.style.padding = '0.25rem 0.5rem';
-    s.style.borderRadius = '4px';
-    s.style.background = who === 'user' ? '#eff6ff' : '#f3f4f6';
-    s.style.color = who === 'user' ? '#1e3a8a' : '#374151';
-    d.style.marginBottom = '0.5rem';
-    d.style.textAlign = who === 'user' ? 'right' : 'left';
-    d.appendChild(s);
-    msgs.appendChild(d);
-    msgs.scrollTop = msgs.scrollHeight;
-  }
+    // show chat messages
+    function append(text, who) {
+      const d = document.createElement('div');
+      d.className = 'chat-msg ' + who;
+      const s = document.createElement('span');
+      s.textContent = text;
+      s.style.display = 'inline-block';
+      s.style.padding = '0.25rem 0.5rem';
+      s.style.borderRadius = '4px';
+      s.style.background = who === 'user' ? '#eff6ff' : '#f3f4f6';
+      s.style.color = who === 'user' ? '#1e3a8a' : '#374151';
+      d.style.marginBottom = '0.5rem';
+      d.style.textAlign = who === 'user' ? 'right' : 'left';
+      d.appendChild(s);
+      msgs.appendChild(d);
+      msgs.scrollTop = msgs.scrollHeight;
+    }
 
-  toggle.addEventListener('click', () => {
-    win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
-  });
+    // open/close chat
+    toggle.addEventListener('click', () => {
+      win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
+    });
 
-  function handle() {
-    const text = inp.value.trim();
-    if (!text) return;
-    append(text, 'user');
-    inp.value = '';
-    let reply = "Sorry, I don't know that yet.";
-    const lower = text.toLowerCase();
+    // process user message
+    function handle() {
+      const text = inp.value.trim();
+      if (!text) return;
+      append(text, 'user');
+      inp.value = '';
+      let reply = "Sorry, I don't know that yet.";
+      const lower = text.toLowerCase();
 
-    for (const [p, t] of Object.entries(prayerSchedule)) {
-      if (lower.includes(p)) {
-        reply = `${p.charAt(0).toUpperCase() + p.slice(1)} prayer is at ${t}.`;
-        break;
+      // respond with prayer time
+      for (const [p, t] of Object.entries(prayerSchedule)) {
+        if (lower.includes(p)) {
+          reply = `${p.charAt(0).toUpperCase() + p.slice(1)} prayer is at ${t}.`;
+          break;
+        }
       }
+
+      // respond with mosque list
+      if (lower.includes('mosque')) {
+        reply = dummyLocations
+          .map(l => `${l.name} (${l.address})`)
+          .join("\n");
+      }
+
+      // show reply
+      setTimeout(() => append(reply, 'bot'), 300);
     }
 
-    if (lower.includes('mosque')) {
-      reply = dummyLocations
-        .map(l => `${l.name} (${l.address})`)
-        .join("\n");
-    }
+    // user presses send/enter
+    send.addEventListener('click', handle);
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') handle(); });
 
-    setTimeout(() => append(reply, 'bot'), 300);
-  }
-
-  send.addEventListener('click', handle);
-  inp.addEventListener('keydown', e => { if (e.key === 'Enter') handle(); });
-
-  append('Hi! Ask "prayer times" or "mosques" or "restaurants" to get started.', 'bot');
-})();
-</script>
+    // intro message
+    append('Hi! Ask "prayer times" or "mosques" or "restaurants" to get started.', 'bot');
+  })();
+  </script>
 
 </body>
 </html>
