@@ -285,5 +285,93 @@
 
     updateReviews();
   </script>
+  <!-- Chatbot HTML -->
+<div id="chat-container" style="position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999; font-family: sans-serif;">
+  <button id="chat-toggle" style="background: #3b82f6; color: white; border: none; width: 3.5rem; height: 3.5rem; border-radius: 50%; font-size: 1.5rem; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.3);">💬</button>
+  <div id="chat-window" style="display: none; flex-direction: column; width: 16rem; max-height: 22rem; background: white; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); overflow: hidden; margin-top: 0.5rem;">
+    <header style="background: #3b82f6; color: white; padding: 0.5rem; font-weight: bold;">HalalGo Chat</header>
+    <div id="chat-messages" style="flex: 1; padding: 0.5rem; overflow-y: auto; font-size: 0.85rem;"></div>
+    <div id="chat-input-row" style="display: flex; border-top: 1px solid #ddd;">
+      <input id="chat-input" placeholder="Ask 'isha' or 'mosques'..." style="flex: 1; border: none; padding: 0.5rem; font-size: 0.85rem; outline: none;" />
+      <button id="chat-send" style="background: #3b82f6; border: none; color: white; padding: 0 1rem; cursor: pointer;">Send</button>
+    </div>
+  </div>
+</div>
+
+<!-- Chatbot Script -->
+<script>
+(function(){
+  const prayerSchedule = {
+    fajr: '5:10 AM',
+    dhuhr: '1:15 PM',
+    asr: '5:00 PM',
+    maghrib: '8:25 PM',
+    isha: '9:45 PM'
+  };
+
+  const dummyLocations = [
+    { type: 'mosque', name: 'Masjid AbuBakr', address: '321 3rd St NW' },
+    { type: 'mosque', name: 'Islamic Center', address: '123 Elton Hills Dr NW' }
+  ];
+
+  const ctr    = document.getElementById('chat-container');
+  const win    = document.getElementById('chat-window');
+  const msgs   = document.getElementById('chat-messages');
+  const inp    = document.getElementById('chat-input');
+  const send   = document.getElementById('chat-send');
+  const toggle = document.getElementById('chat-toggle');
+
+  function append(text, who) {
+    const d = document.createElement('div');
+    d.className = 'chat-msg ' + who;
+    const s = document.createElement('span');
+    s.textContent = text;
+    s.style.display = 'inline-block';
+    s.style.padding = '0.25rem 0.5rem';
+    s.style.borderRadius = '4px';
+    s.style.background = who === 'user' ? '#eff6ff' : '#f3f4f6';
+    s.style.color = who === 'user' ? '#1e3a8a' : '#374151';
+    d.style.marginBottom = '0.5rem';
+    d.style.textAlign = who === 'user' ? 'right' : 'left';
+    d.appendChild(s);
+    msgs.appendChild(d);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  toggle.addEventListener('click', () => {
+    win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
+  });
+
+  function handle() {
+    const text = inp.value.trim();
+    if (!text) return;
+    append(text, 'user');
+    inp.value = '';
+    let reply = "Sorry, I don't know that yet.";
+    const lower = text.toLowerCase();
+
+    for (const [p, t] of Object.entries(prayerSchedule)) {
+      if (lower.includes(p)) {
+        reply = `${p.charAt(0).toUpperCase() + p.slice(1)} prayer is at ${t}.`;
+        break;
+      }
+    }
+
+    if (lower.includes('mosque')) {
+      reply = dummyLocations
+        .map(l => `${l.name} (${l.address})`)
+        .join("\n");
+    }
+
+    setTimeout(() => append(reply, 'bot'), 300);
+  }
+
+  send.addEventListener('click', handle);
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') handle(); });
+
+  append('Hi! Ask "prayer times" or "mosques" or "restaurants" to get started.', 'bot');
+})();
+</script>
+
 </body>
 </html>
