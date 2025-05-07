@@ -7,14 +7,14 @@ const firebaseConfig = {
   apiKey: "AIzaSyA1dgKamvYTYowgGsS7ZxEsj-pLjJRUlVc",
   authDomain: "halalgo-2.firebaseapp.com",
   projectId: "halalgo-2",
-  storageBucket: "halalgo-2.appspot.com", // 🔧 corrected typo here too
+  storageBucket: "halalgo-2.appspot.com", 
   messagingSenderId: "308177144684",
   appId: "1:308177144684:web:48785209b2326371b60149",
   measurementId: "G-FY9S8VT9TT"
 };
 
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig); // this initialize the app for the firebase
 const db = getFirestore(app);
-const auth = getAuth(app);
+const auth = getAuth(app); // gets the authtacation 
 
 export { db, auth };
