@@ -341,7 +341,7 @@
     // AH - Pull existing reviews from local storage or start empty
     const reviews = JSON.parse(localStorage.getItem("restaurantReviews")) || [];
 
-    // AH - Submits a review and saves it locally
+    // AH - Submits a revieww and savees it locally
     function submitReview() {
       const name = document.getElementById('userName').value;
       const text = document.getElementById('reviewText').value;
@@ -360,8 +360,10 @@
 
       // AH - Clear form after submission
       document.getElementById('userName').value = '';
+      
       document.getElementById('reviewText').value = '';
       document.getElementById('halalStatus').value = '';
+      
       document.getElementById('restaurantSelect').value = '';
       document.querySelectorAll('.star').forEach(s => s.classList.remove('active'));
     }
@@ -468,6 +470,7 @@
       }
 
       if (text.includes("restaurant") || text.includes("food")) {
+        
         return "🍽️ Rochester Halal Restaurants:\n• Halal Bites - Rochester\n• Sabri Kitchen";
       }
 
