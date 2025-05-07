@@ -103,8 +103,10 @@
     width: 100%;
     padding: 0.875rem;
     border: 2px solid #e0e0e0;
+      
     border-radius: 8px;
     font-size: 1rem;
+      
     transition: border-color 0.3s ease;
   }
   
@@ -203,17 +205,21 @@
   .review-card {
     background: white;
     padding: 1.5rem;
+      
     margin: 1rem 0;
     border-radius: 12px;
+      
     box-shadow: var(--shadow-sm);
     border-left: 4px solid var(--primary);
   }
   
   .halal-badge {
     display: inline-block;
+      
     padding: 0.25rem 0.75rem;
     border-radius: 20px;
     font-size: 0.85rem;
+      
     font-weight: 600;
     margin: 0.5rem 0;
   }
