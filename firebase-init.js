@@ -4,7 +4,7 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.2/firebase
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA1dgKamvYTYowgGsS7ZxEsj-pLjJRUlVc",
+  apiKey: "AIzaSyA1dgKamvYTYowgGsS7ZxEsj-pLjJRUlVc", // these are critacal it allows it to connect it with firebase
   authDomain: "halalgo-2.firebaseapp.com",
   projectId: "halalgo-2",
   storageBucket: "halalgo-2.appspot.com", 
