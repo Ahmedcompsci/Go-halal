@@ -413,6 +413,7 @@
     };
 
     botSend.onclick = () => handleBotSend();
+    
     botInput.addEventListener("keypress", e => {
       if (e.key === "Enter") handleBotSend();
     });
@@ -433,12 +434,15 @@
       const div = document.createElement("div");
       div.style.margin = "0.25rem 0";
       div.style.textAlign = sender === "user" ? "right" : "left";
+      
       const span = document.createElement("span");
       span.textContent = message;
       span.style.display = "inline-block";
+      
       span.style.padding = "0.25rem 0.5rem";
       span.style.borderRadius = "4px";
       span.style.background = sender === "user" ? "#eff6ff" : "#f3f4f6";
+      
       span.style.color = sender === "user" ? "#1e3a8a" : "#374151";
       div.appendChild(span);
       botMessages.appendChild(div);
